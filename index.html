@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medhat - Creative Profile (Updated)</title>
+    <!-- Importing a new, modern font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General body styles for a light, minimalist theme */
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: #f0f0f0;
+            color: #111;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden; /* To prevent scrollbars from the parallax effect */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="black" d="M3.243 0L32 15.654 18.064 18.361 14.53 32.091 3.243 0z"/></svg>') 10 10, auto;
+        }
+        /* Dark theme styles for the entire page */
+        body.dark-theme {
+            background-color: #111;
+            color: #f0f0f0;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="white" d="M3.243 0L32 15.654 18.064 18.361 14.53 32.091 3.243 0z"/></svg>') 10 10, auto;
+        }
+        body.dark-theme .written-books,
+        body.dark-theme footer {
+            border-top: 1px solid #444;
+        }
+        body.dark-theme .book-card {
+            background-color: #222;
+            border-color: #333;
+            color: #f0f0f0;
+        }
+        body.dark-theme .book-card:hover {
+            box-shadow: 0 15px 25px rgba(255, 255, 255, 0.1);
+        }
+        body.dark-theme .book-description-overlay {
+            background-color: #333;
+        }
+        body.dark-theme .icon-link svg {
+            fill: black;
+        }
+        body.dark-theme .icon-link:hover svg {
+            fill:black;
+        }
+        body.dark-theme .theme-toggle-button {
+            color: #f0f0f0;
+            border-color: #f0f0f0;
+        }
+        body.dark-theme .theme-toggle-button:hover {
+            background-color: black;
+            color: #111;
+        }
+        /* Container for the main content to keep it centered and spaced */
+        .container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: clamp(30px, 5vw, 50px);
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+        /* --- Main Text Section --- */
+        .main-content {
+            padding: 0;
+            margin-top: -50px; /* Adjusting for a cleaner vertical alignment */
+            transition: transform 0.2s ease-out; /* For the parallax effect */
+        }
+        .main-content h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(3rem, 10vw, 7rem);
+            line-height: 1;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 5px;
+        }
+        /* New CSS for the name animation */
+        .medhat-name span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: letter-pop 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+        /* Setting animation delays for each letter */
+        .medhat-name span:nth-child(1) { animation-delay: 0.1s; }
+        .medhat-name span:nth-child(2) { animation-delay: 0.2s; }
+        .medhat-name span:nth-child(3) { animation-delay: 0.3s; }
+        .medhat-name span:nth-child(4) { animation-delay: 0.4s; }
+        .medhat-name span:nth-child(5) { animation-delay: 0.5s; }
+        .medhat-name span:nth-child(6) { animation-delay: 0.6s; }
+        /* Keyframes for the name animation */
+        @keyframes letter-pop {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .main-content .text-block {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            text-transform: uppercase;
+            line-height: 1.5;
+            margin-top: clamp(30px, 6vw, 50px);
+        }
+
+        /* --- Tutorial Section Styles --- */
+        .tutorial-content {
+            margin-top: clamp(50px, 10vw, 100px);
+            padding-top: clamp(25px, 5vw, 50px);
+            border-top: 1px solid #c0c0c0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(20px, 5vw, 40px);
+        }
+        .tutorial-content p {
+            line-height: 1.6;
+        }
+        .tutorial-content h2, .tutorial-content h3 {
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .tutorial-content h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            letter-spacing: 2px;
+        }
+        .tutorial-content h3 {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        pre {
+            background-color: #e5e7eb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* --- Footer Section --- */
+        footer {
+            margin-top: auto;
+            padding: 30px clamp(30px, 5vw, 50px);
+            border-top: 1px solid #c0c0c0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        /* Styles for the theme toggle button */
+        .theme-toggle-button {
+            background: none;
+            border: 1px solid #111;
+            color: #111;
+            padding: 8px 16px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .theme-toggle-button:hover {
+            background-color: #111;
+            color: #f0f0f0;
+        }
+        .theme-toggle-button:focus {
+            outline: none;
+        }
+        /* Styles for the SVG icon */
+        .icon-link svg {
+            width: 1.2em; /* Match icon size to font size */
+            height: 1.2em;
+            fill: #111; /* Match icon color to text color */
+            transition: fill 0.3s ease;
+        }
+        .icon-link:hover svg {
+            fill: #888;
+        }
+        /* --- Responsive Design (Refined) --- */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+                text-align: center;
+                align-items: center;
+            }
+            .main-content {
+                padding: 0;
+                margin-top: 0;
+            }
+            .main-content .text-block {
+                margin-top: 30px;
+            }
+            .tutorial-content {
+                margin-top: 50px;
+            }
+            .tutorial-content h2 {
+                text-align: center;
+            }
+            footer {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main content area with large text blocks -->
+        <div class="main-content">
+            <!-- The name is now broken into individual spans for the animation -->
+            <h1 class="medhat-name">
+                <span>M</span><span>e</span><span>d</span><span>h</span><span>a</span><span>t</span>
+            </h1>
+            <!-- <p class="text-block">
+                I've written a bunch of books—yeah, I know, kinda crazy—but mostly about stuff that hits when boredom strikes, random ideas, and things I just couldn’t stop thinking about. This site is basically my little corner to showcase my books, share some of my thoughts, and maybe inspire someone to dive into weird, cool ideas too.
+            </p> -->
+        </div>
+        <!-- Tutorial Section -->
+        <main class="tutorial-content">
+            <h2 class="books-title">Tutorial - Write a Shell in C</h2>
+            <p class="text-sm text-gray-500">Medhat ullah • 4 september 2025</p>
+            <div class="content-section">
+                <p>
+                    It's easy to view yourself as "not a real programmer." There are programs out there that everyone uses, and it's easy to put their developers on a pedestal. Although developing large software projects isn't easy, many times the basic idea of that software is quite simple. Implementing it yourself is a fun way to show that you have what it takes to be a real programmer. So, this is a walkthrough on how I wrote my own simplistic Unix shell in C, in the hopes that it makes other people feel that way too.
+                </p>
+                <p>
+                    University students beware! Many classes have assignments that ask you to write a shell, and some faculty are aware of this tutorial and code. If you're a student in such a class, you shouldn't copy (or copy then modify) this code without permission. And even then, I would advise against heavily relying on this tutorial.
+                </p>
+
+                <h3>Basic lifetime of a shell</h3>
+                <p>
+                    The shell described here, dubbed 'msh', is a simple Unix shell with basic command execution. Here's a look at the core loop of a simple shell:
+                </p>
+
+                <pre class="code-snippet">
+<code class="language-c">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/wait.h&gt;
+
+// Basic loop of a shell
+void lsh_loop(void){
+  char *line;
+  char **args;
+  int status;
+
+  do {
+    printf("> ");
+    line = lsh_read_line();
+    args = lsh_split_line(line);
+    status = lsh_execute(args);
+
+    free(line);
+    free(args);
+  } while (status);
+}
+</code>
+                </pre>
+
+                <p>
+                    Let's walk through the code. The first few lines are just declarations. The do-while loop is more convenient for checking the status variable, because it executes once before checking its value. Within the loop, we print a prompt, call a function to read a line, call a function to split the line into args, and execute the args. Finally, we free the line and arguments that we created earlier. Note that we’re using a status variable returned by <code>lsh_execute()</code> to determine when to exit.
+                </p>
+
+                <h3>Reading a line</h3>
+                <p>
+                    Reading a line from stdin sounds so simple, but in C it can be a hassle. The sad thing is that you don’t know ahead of time how much text a user will enter into their shell. You can’t simply allocate a block and hope they don’t exceed it. Instead, you need to start with a block, and if they do exceed it, reallocate with more space. This is a common strategy in C, and we’ll use it to implement <code>lsh_read_line()</code>.
+                </p>
+
+                <pre class="code-snippet">
+<code class="language-c">
+#define LSH_RL_BUFSIZE 1024
+
+char *lsh_read_line(void){
+  int bufsize = LSH_RL_BUFSIZE;
+  int position = 0;
+  char *buffer = malloc(sizeof(char) * bufsize);
+  int c;
+
+  if (!buffer) {
+    fprintf(stderr, "lsh: allocation error\n");
+    exit(EXIT_FAILURE);
+  }
+
+  while (1) {
+    // Read a character
+    c = getchar();
+
+    // If we hit EOF, replace it with a null character and return.
+    if (c == EOF || c == '\n') {
+      buffer[position] = '\0';
+      return buffer;
+    } else {
+      buffer[position] = c;
+    }
+    position++;
+
+    // If we have exceeded the buffer, reallocate.
+    if (position >= bufsize) {
+      bufsize += LSH_RL_BUFSIZE;
+      buffer = realloc(buffer, bufsize);
+      if (!buffer) {
+        fprintf(stderr, "lsh: allocation error\n");
+        exit(EXIT_FAILURE);
+      }
+    }
+  }
+}
+</code>
+                </pre>
+
+                <p>
+                    The first part is a lot of declarations. If you hadn’t noticed, I prefer to keep the old C style of declaring variables before the rest of the code. The meat of the function is within the (apparently infinite) <code>while (1)</code> loop. In the loop, we read a character (and store it as an <code>int</code>, not a <code>char</code>, that’s important! EOF is an integer, not a character, and if you want to check for it, you need to use an <code>int</code>. This is a common beginner C mistake.). If it’s the newline, or EOF, we null terminate our current string and return it. Otherwise, we add the character to our existing string.
+                </p>
+
+                <p>
+                    Next, we see whether the next character will go outside of our current buffer size. If so, we reallocate our buffer (checking for allocation errors) before continuing. And that’s really it.
+                </p>
+
+                <p>
+                    Those who are intimately familiar with newer versions of the C library may note that there is a <code>getline()</code> function in <code>stdio.h</code> that does most of the work we just implemented. To be completely honest, I didn’t know it existed until after I wrote this code. This function was a GNU extension to the C library until 2008, when it was added to the specification, so most modern Unixes should have it now. I’m leaving my existing code the way it is, and I encourage people to learn it this way first before using <code>getline</code>. You’d be robbing yourself of a learning opportunity if you didn’t! Anyhow, with <code>getline</code>, the function becomes easier:
+                </p>
+
+                <pre class="code-snippet">
+<code class="language-c">
+char *lsh_read_line_getline(void){
+  char *line = NULL;
+  ssize_t bufsize = 0; // have getline allocate a buffer for us
+
+  if (getline(&amp;line, &amp;bufsize, stdin) == -1){
+    if (feof(stdin)) {
+      exit(EXIT_SUCCESS);  // We recieved an EOF
+    } else  {
+      perror("readline");
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  return line;
+}
+</code>
+                </pre>
+
+                <p>
+                    This is not 100% trivial because we still need to check for EOF or errors while reading. EOF (end of file) means that either we were reading commands from a text file which we’ve reached the end of, or the user typed Ctrl-D, which signals end-of-file. Either way, it means we should exit successfully, and if any other error occurs, we should fail after printing the error.
+                </p>
+
+                <h3>Parsing the line</h3>
+                <p>
+                    OK, so if we look back at the loop, we see that we now have implemented <code>lsh_read_line()</code>, and we have the line of input. Now, we need to parse that line into a list of arguments. I’m going to make a glaring simplification here, and say that we won’t allow quoting or backslash escaping in our command line arguments. Instead, we will simply use whitespace to separate arguments from each other. So the command <code>echo "this message"</code> would not call echo with a single argument <code>this message</code>, but rather it would call echo with two arguments: <code>"this</code> and <code>message"</code>.
+                </p>
+
+                <p>
+                    With those simplifications, all we need to do is “tokenize” the string using whitespace as delimiters. That means we can break out the classic library function <code>strtok</code> to do some of the dirty work for us.
+                </p>
+
+                <pre class="code-snippet">
+<code class="language-c">
+#define LSH_TOK_BUFSIZE 64
+#define LSH_TOK_DELIM " \t\r\n\a"
+
+char **lsh_split_line(char *line){
+  int bufsize = LSH_TOK_BUFSIZE, position = 0;
+  char **tokens = malloc(bufsize * sizeof(char*));
+  char *token;
+
+  if (!tokens) {
+    fprintf(stderr, "lsh: allocation error\n");
+    exit(EXIT_FAILURE);
+  }
+
+  token = strtok(line, LSH_TOK_DELIM);
+  while (token != NULL) {
+    tokens[position] = token;
+    position++;
+
+    if (position &gt;= bufsize) {
+      bufsize += LSH_TOK_BUFSIZE;
+      tokens = realloc(tokens, bufsize * sizeof(char*));
+      if (!tokens) {
+        fprintf(stderr, "lsh: allocation error\n");
+        exit(EXIT_FAILURE);
+      }
+    }
+
+    token = strtok(NULL, LSH_TOK_DELIM);
+  }
+  tokens[position] = NULL;
+  return tokens;
+}
+</code>
+                </pre>
+
+                <p>
+                    If this code looks suspiciously similar to <code>lsh_read_line()</code>, it’s because it is! We are using the same strategy of having a buffer and dynamically expanding it. But this time, we’re doing it with a null-terminated array of pointers instead of a null-terminated array of characters.
+                </p>
+
+                <p>
+                    At the start of the function, we begin tokenizing by calling <code>strtok</code>. It returns a pointer to the first token. What <code>strtok()</code> actually does is return pointers to within the string you give it, and place <code>\0</code> bytes at the end of each token. We store each pointer in an array (buffer) of character pointers.
+                </p>
+
+                <p>
+                    Finally, we reallocate the array of pointers if necessary. The process repeats until no token is returned by <code>strtok</code>, at which point we null-terminate the list of tokens.
+                </p>
+
+                <p>
+                    So, once all is said and done, we have an array of tokens, ready to execute. Which begs the question, how do we do that?
+                </p>
+
+                <h3>How shells start processes</h3>
+                <p>
+                    Now, we’re really at the heart of what a shell does. Starting processes is the main function of shells. So writing a shell means that you need to know exactly what’s going on with processes and how they start. That’s why I’m going to take us on a short diversion to discuss processes in Unix-like operating systems.
+                </p>
+
+                <p>
+                    There are only two ways of starting processes on Unix. The first one (which almost doesn’t count) is by being Init. You see, when a Unix computer boots, its kernel is loaded. Once it is loaded and initialized, the kernel starts only one process, which is called Init. This process runs for the entire length of time that the computer is on, and it manages loading up the rest of the processes that you need for your computer to be useful.
+                </p>
+
+                <p>
+                    Since most programs aren’t Init, that leaves only one practical way for processes to get started: the <code>fork()</code> system call. When this function is called, the operating system makes a duplicate of the process and starts them both running. The original process is called the “parent”, and the new one is called the “child”. <code>fork()</code> returns 0 to the child process, and it returns to the parent the process ID number (PID) of its child. In essence, this means that the only way for new processes is to start is by an existing one duplicating itself.
+                </p>
+
+                <p>
+                    This might sound like a problem. Typically, when you want to run a new process, you don’t just want another copy of the same program – you want to run a different program. That’s what the <code>exec()</code> system call is all about. It replaces the current running program with an entirely new one. This means that when you call <code>exec</code>, the operating system stops your process, loads up the new program, and starts that one in its place. A process never returns from an <code>exec()</code> call (unless there’s an error).
+                </p>
+
+                <p>
+                    With these two system calls, we have the building blocks for how most programs are run on Unix. First, an existing process forks itself into two separate ones. Then, the child uses <code>exec()</code> to replace itself with a new program. The parent process can continue doing other things, and it can even keep tabs on its children, using the system call <code>wait()</code>.
+                </p>
+
+                <p>
+                    Phew! That’s a lot of information, but with all that background, the following code for launching a program will actually make sense:
+                </p>
+
+                <pre class="code-snippet">
+<code class="language-c">
+int lsh_launch(char **args){
+  pid_t pid, wpid;
+  int status;
+
+  pid = fork();
+  if (pid == 0) {
+    // Child process
+    if (execvp(args[0], args) == -1) {
+      perror("lsh");
+    }
+    exit(EXIT_FAILURE);
+  } else if (pid &lt; 0) {
+    // Error forking
+    perror("lsh");
+  } else {
+    // Parent process
+    do {
+      wpid = waitpid(pid, &amp;status, WUNTRACED);
+    } while (!WIFEXITED(status) &amp;&amp; !WIFSIGNALED(status));
+  }
+
+  return 1;
+}
+</code>
+                </pre>
+
+                <p>
+                    Alright. This function takes the list of arguments that we created earlier. Then, it forks the process, and saves the return value. Once <code>fork()</code> returns, we actually have <code>two</code> processes running concurrently. The child process will take the first if condition (where <code>pid == 0</code>).
+                </p>
+
+                <p>
+                    In the child process, we want to run the command given by the user. So, we use one of the many variants of the <code>exec</code> system call, <code>execvp</code>. The different variants of <code>exec</code> do slightly different things. Some take a variable number of string arguments. Others take a list of strings. Still others let you specify the environment that the process runs with. This particular variant expects a program name and an array (also called a vector, hence the ‘v’) of string arguments (the first one has to be the program name). The ‘p’ means that instead of providing the full file path of the program to run, we’re going to give its name, and let the operating system search for the program in the path.
+                </p>
+
+                <p>
+                    If the exec command returns -1 (or actually, if it returns at all), we know there was an error. So, we use <code>perror</code> to print the system’s error message, along with our program name, so users know where the error came from. Then, we exit so that the shell can keep running.
+                </p>
+
+                <p>
+                    The second condition (pid < 0) checks whether <code>fork()</code> had an error. If so, we print it and keep going – there’s no handling that error beyond telling the user and letting them decide if they need to quit.
+                </p>
+
+                <p>
+                    The third condition means that <code>fork()</code> executed successfully. The parent process will land here. We know that the child is going to execute the process, so the parent needs to wait for the command to finish running. We use <code>waitpid()</code> to wait for the process’s state to change. Unfortunately, <code>waitpid()</code> has a lot of options (like <code>exec()</code>). Processes can change state in lots of ways, and not all of them mean that the process has ended. A process can either exit (normally, or with an error code), or it can be killed by a signal. So, we use the macros provided with <code>waitpid()</code> to wait until either the processes are exited or killed. Then, the function finally returns a 1, as a signal to the calling function that we should prompt for input again.
+                </p>
+
+                <h3>Shell Builtins</h3>
+                <p>
+                    You may have noticed that the <code>lsh_loop()</code> function calls <code>lsh_execute()</code>, but above, we titled our function <code>lsh_launch()</code>. This was intentional! You see, most commands a shell executes are programs, but not all of them. Some of them are built right into the shell.
+                </p>
+
+                <p>
+                    The reason is actually pretty simple. If you want to change directory, you need to use the function <code>chdir()</code>. The thing is, the current directory is a property of a process. So, if you wrote a program called <code>cd</code> that changed directory, it would just change its own current directory, and then terminate. Its parent process’s current directory would be unchanged. Instead, the shell process itself needs to execute <code>chdir()</code>, so that its own current directory is updated. Then, when it launches child processes, they will inherit that directory too.
+                </p>
+
+                <p>
+                    Similarly, if there was a program named <code>exit</code>, it wouldn’t be able to exit the shell that called it. That command also needs to be built into the shell. Also, most shells are configured by running configuration scripts, like <code>~/.bashrc</code>. Those scripts use commands that change the operation of the shell. These commands could only change the shell’s operation if they were implemented within the shell process itself.
+                </p>
+
+                <p>
+                    So, it makes sense that we need to add some commands to the shell itself. The ones I added to my shell are <code>cd</code>, <code>exit</code>, and <code>help</code>. Here are their function implementations below:
+                </p>
+
+                <pre class="code-snippet">
+<code class="language-c">
+/*
+  Function Declarations for builtin shell commands:
+ */
+int lsh_cd(char **args);
+int lsh_help(char **args);
+int lsh_exit(char **args);
+
+/*
+  List of builtin commands, followed by their corresponding functions.
+ */
+char *builtin_str[] = {
+  "cd",
+  "help",
+  "exit"
+};
+
+int (*builtin_func[]) (char **) = {
+  &amp;lsh_cd,
+  &amp;lsh_help,
+  &amp;lsh_exit
+};
+
+int lsh_num_builtins() {
+  return sizeof(builtin_str) / sizeof(char *);
+}
+
+/*
+  Builtin function implementations.
+*/
+int lsh_cd(char **args){
+  if (args[1] == NULL) {
+    fprintf(stderr, "lsh: expected argument to \"cd\"\n");
+  } else {
+    if (chdir(args[1]) != 0) {
+      perror("lsh");
+    }
+  }
+  return 1;
+}
+
+int lsh_help(char **args){
+  int i;
+  printf("Medhat ullah LSH\n");
+  printf("Type program names and arguments, and hit enter.\n");
+  printf("The following are built in:\n");
+
+  for (i = 0; i &lt; lsh_num_builtins(); i++) {
+    printf("  %s\n", builtin_str[i]);
+  }
+
+  printf("Use the man command for information on other programs.\n");
+  return 1;
+}
+
+int lsh_exit(char **args){
+  return 0;
+}
+</code>
+                </pre>
+
+                <p>
+                    There are three parts to this code. The first part contains <strong>forward declarations</strong> of my functions. A forward declaration is when you declare (but don’t define) something, so that you can use its name before you define it. The reason I do this is because <code>lsh_help()</code> uses the array of builtins, and the arrays contain <code>lsh_help()</code>. The cleanest way to break this dependency cycle is by forward declaration.
+                </p>
+
+                <p>
+                    The next part is an array of builtin command names, followed by an array of their corresponding functions. This is so that, in the future, builtin commands can be added simply by modifying these arrays, rather than editing a large “switch” statement somewhere in the code. If you’re confused by the declaration of <code>builtin_func</code>, that’s OK! I am too. It’s an array of function pointers (that take array of strings and return an int). Any declaration involving function pointers in C can get really complicated. I still look up how function pointers are declared myself!
+                </p>
+
+                <p>
+                    Finally, I implement each function. The <code>lsh_cd()</code> function first checks that its second argument exists, and prints an error message if it doesn’t. Then, it calls <code>chdir()</code>, checks for errors, and returns. The help function prints a nice message and the names of all the builtins. And the exit function returns 0, as a signal for the command loop to terminate.
+                </p>
+
+                <h3>Putting together builtins and processes</h3>
+                <p>
+                    The last missing piece of the puzzle is to implement <code>lsh_execute()</code>, the function that will either launch a builtin, or a process. If you’re reading this far, you’ll know that we’ve set ourselves up for a really simple function:
+                </p>
+
+                <pre class="code-snippet">
+<code class="language-c">
+int lsh_execute(char **args){
+  int i;
+
+  if (args[0] == NULL) {
+    // An empty command was entered.
+    return 1;
+  }
+
+  for (i = 0; i &lt; lsh_num_builtins(); i++) {
+    if (strcmp(args[0], builtin_str[i]) == 0) {
+      return (*builtin_func[i])(args);
+    }
+  }
+
+  return lsh_launch(args);
+}
+</code>
+                </pre>
+
+                <p>
+                    All this does is check if the command equals each builtin, and if so, run it. If it doesn’t match a builtin, it calls <code>lsh_launch()</code> to launch the process. The one caveat is that <code>args</code> might just contain NULL, if the user entered an empty string, or just whitespace. So, we need to check for that case at the beginning.
+                </p>
+
+                <h3>Putting it all together</h3>
+                <p>
+                    That’s all the code that goes into the shell. If you’ve read along, you should understand completely how the shell works. To try it out (on a Linux machine), you would need to copy these code segments into a file (main.c), and compile it. Make sure to only include one implementation of <code>lsh_read_line()</code>. You’ll need to include the following headers at the top. I’ve added notes so that you know where each function comes from.
+                </p>
+
+                <pre>
+<code class="language-text">
+#include &lt;sys/wait.h&gt;
+// waitpid() and associated macros
+#include &lt;unistd.h&gt;
+// chdir()
+// fork()
+// exec()
+// pid_t
+#include &lt;stdlib.h&gt;
+// malloc()
+// realloc()
+// free()
+// exit()
+// execvp()
+// EXIT_SUCCESS, EXIT_FAILURE
+#include &lt;stdio.h&gt;
+// fprintf()
+// printf()
+// stderr
+// getchar()
+// perror()
+#include &lt;string.h&gt;
+// strcmp()
+// strtok()
+</code>
+                </pre>
+
+                <p>
+                    Once you have the code and headers, it should be as simple as running <code>gcc -o main main.c</code> to compile it, and then <code>./main</code> to run it.
+                </p>
+
+                <p>
+                    Alternatively, you can get the code from GitHub. That link goes straight to the current revision of the code at the time of this writing– I may choose to update it and add new features someday in the future. If I do, I’ll try my best to update this article with the details and implementation ideas.
+                </p>
+
+                <h3>Wrap up</h3>
+                <p>
+                    If you read this and wondered how in the world I knew how to use those system calls, the answer is simple: man pages. In <code>man 3p</code> there is thorough documentation on every system call. If you know what you’re looking for, and you just want to know how to use it, the man pages are your best friend. If you don’t know what sort of interface the C library and Unix offer you, I would point you toward the <strong>POSIX Specification</strong>, specifically Section 13, “Headers”. You can find each header and everything it is required to define in there.
+                </p>
+
+                <p>
+                    Obviously, this shell isn’t feature-rich. Some of its more glaring omissions are:
+                </p>
+
+                <ul>
+                    <li>Only whitespace separating arguments, no quoting or backslash escaping.</li>
+                    <li>No piping or redirection.</li>
+                    <li>Few standard builtins.</li>
+                    <li>No globbing.</li>
+                </ul>
+
+                <p>
+                    The implementation of all of this stuff is really interesting, but way more than I could ever fit into an article like this. If I ever get around to implementing any of them, I’ll be sure to write a follow-up about it. But I’d encourage any reader to try implementing this stuff yourself. If you’re met with success, drop me a line in the comments below, I’d love to see the code.
+                </p>
+
+                <p>
+                    And finally, thanks for reading this tutorial (if anyone did). I enjoyed writing it, and I hope you enjoyed reading it. Let me know what you think in the comments!
+                </p>
+
+                <p>
+                    Edit: In an earlier version of this article, I had a couple nasty bugs in <code>lsh_split_line()</code>, that just happened to cancel each other out. Thanks to /u/munmap on Reddit (and other commenters) for catching them! Check this diff to see exactly what I did wrong.
+                </p>
+            </div>
+        </main>
+        <!-- Footer Section -->
+        <footer>
+            <!-- <button id="theme-toggle" class="theme-toggle-button">
+                <span>Toggle Theme</span> -->
+            </button>
+            
+        </footer>
+        <script>
+            // JavaScript for the parallax-like mouse movement effect
+            document.addEventListener('mousemove', (e) => {
+                const mainContent = document.querySelector('.main-content');
+                // Calculate the position relative to the center of the viewport
+                const x = (window.innerWidth / 2 - e.clientX) / 40;
+                const y = (window.innerHeight / 2 - e.clientY) / 40;
+                // Apply the transform for the parallax effect on the main content
+                mainContent.style.transform = `translate(${x}px, ${y}px)`;
+            });
+            // JavaScript for the theme toggling functionality
+           /* document.addEventListener('DOMContentLoaded', () => {
+                const themeToggleButton = document.getElementById('theme-toggle');
+                const body = document.body;
+                // Check for saved theme preference in localStorage on page load
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    body.classList.add('dark-theme');
+                }
+                // Event listener to toggle the theme
+                themeToggleButton.addEventListener('click', () => {
+                    body.classList.toggle('dark-theme');
+                    // Save the new theme preference to localStorage
+                    if (body.classList.contains('dark-theme')) {
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        localStorage.setItem('theme', 'light');
+                    }*/
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
